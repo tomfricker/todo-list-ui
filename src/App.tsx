@@ -1,9 +1,11 @@
 import { Component } from 'react';
 import './App.css';
-import List from './List/List';
+import TaskList from './TaskList/TaskList';
 import IToDo from './Interfaces/IToDo';
+import AddTask from './AddTask/AddTask';
 
 interface IProps {
+  apiUrl: string;
 }
 
 interface IState {
@@ -19,7 +21,7 @@ class App extends Component<IProps, IState> {
   }
 
   componentDidMount() {
-    fetch('https://localhost:7190/ToDo')
+    fetch(this.props.apiUrl)
       .then(result => result.json())
       .then(json => {
         this.setState({
@@ -28,13 +30,19 @@ class App extends Component<IProps, IState> {
       });
   }
 
+  addTaskHandler = () => {
+    const description = document.getElementById('add-task-description') as HTMLInputElement;
+    console.log(description.value);
+  }
+
   render() {
     var { todos } = this.state;
 
     return(
       <div className="App">
-        <List title="Pending Tasks" todos={todos.filter(t => t.state === 0)} />
-        <List title="Completed Tasks" todos={todos.filter(t => t.state === 1)} />
+        <TaskList title="Pending Tasks" todos={todos.filter(t => t.state === 0)} />
+        <TaskList title="Completed Tasks" todos={todos.filter(t => t.state === 1)} />
+        <AddTask addTask={this.addTaskHandler} />
       </div>
     );
   }
