@@ -21,18 +21,39 @@ class App extends Component<IProps, IState> {
   }
 
   componentDidMount() {
+    this.getToDos();
+  }
+
+  getToDos = () => {
     fetch(this.props.apiUrl)
       .then(result => result.json())
       .then(json => {
         this.setState({
           todos: json
-        })
+        }) 
+      })
+      .catch((error) => {
+        console.error('Error:', error);        
       });
   }
 
   addTaskHandler = () => {
     const description = document.getElementById('add-task-description') as HTMLInputElement;
-    console.log(description.value);
+    const task = { description: description.value };
+
+    fetch(this.props.apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(task)
+    })
+    .then(() => {
+      this.getToDos();
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
   }
 
   render() {
