@@ -7,11 +7,9 @@ interface IAddTaskProps {
 const AddTask: FC<IAddTaskProps> = (props: IAddTaskProps) => {
     return (
         <div>
-            <h2>Add Task</h2>
-            <div>Description</div>
             <input id="add-task-description" type="text" />
-            <br /><br />
-            <button onClick={props.addTask}>Add</button>
+            <br />
+            <button onClick={props.addTask}>Add Task</button>
         </div>
     );
 }

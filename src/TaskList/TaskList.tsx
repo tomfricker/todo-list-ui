@@ -1,22 +1,21 @@
-import { FC } from 'react';
+import { FC, MouseEvent } from 'react';
 import IToDo from '../Interfaces/IToDo';
 
 interface IListProps {
     title: string;
     todos: Array<IToDo>;
+    updateTaskStatus: (e: MouseEvent<HTMLElement>) => void;
 }
 
 const List: FC<IListProps> = (props: IListProps) => {
     return (
         <div>
             <h1>{props.title}</h1>
-                <ul>
                 {props.todos.map(todo => (
-                <li key={todo.id}>
-                    {todo.description}
-                </li>
+                <div key={todo.id}>
+                    {todo.description} <button id={todo.id} onClick={props.updateTaskStatus}>Change status</button>
+                </div>
                 ))}
-            </ul>
         </div>
     );
 }
