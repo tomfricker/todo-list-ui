@@ -41,8 +41,24 @@ class App extends Component<IProps, IState> {
     const description = document.getElementById('add-task-description') as HTMLInputElement;
     const task = { description: description.value };
 
+    this.upsertTask('POST', task as IToDo);
+  }
+
+  updateTaskStatusHandler = (e: MouseEvent<HTMLElement>) => {
+    const id = e.currentTarget.id;
+
+    var task = this.state.todos.find(t => t.id === id);
+
+    if (task !== undefined){
+      task.state = task.state == 0 ? 1 : 0;
+
+      this.upsertTask('PUT', task);
+    }    
+  }
+
+  upsertTask = (method: string, task: IToDo) => {
     fetch(this.props.apiUrl, {
-      method: 'POST',
+      method: method,
       headers: {
         'Content-Type': 'application/json'
       },
@@ -54,30 +70,6 @@ class App extends Component<IProps, IState> {
     .catch((error) => {
       console.error('Error:', error);
     });
-  }
-
-  updateTaskStatusHandler = (e: MouseEvent<HTMLElement>) => {
-    const id = e.currentTarget.id;
-
-    var task = this.state.todos.find(t => t.id === id);
-
-    if (task !== undefined){
-      task.state = task.state == 0 ? 1 : 0;
-
-      fetch(this.props.apiUrl, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(task)
-      })
-      .then(() => {
-        this.getToDos();
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-    }    
   }
 
   render() {
