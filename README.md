@@ -24,6 +24,7 @@ I made the following assumptions based on the given brief:  <br />
 The server would be up and running at all times for the ui to call.  <br />
 The server would be saving changes to the data each time it was altered on the ui. <br />
 The look and feel of the ui was unimportant at this stage and functionality was more important. <br />
+The server would be available on the assigned localhost port for running the jest tests.
 
 3. Briefly explain your technical design and why do you think is the best 
 approach to this problem. <br /> <br />
